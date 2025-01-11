@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+</head>
+<body>
+    <main>
+        <div id="container">
+            <form id="expense-counter">
+                <label for="budget">Budget</label>
+                <input type="number" min="0" id="budget" placeholder="Enter budget" required>
+
+                <!-- Category Entry -->
+                <fieldset id="food">
+                    <legend>Food</legend>
+                    <div id="input-container"></div>
+                </fieldset>
+                <fieldset id="housing">
+                    <legend>Housing</legend>
+                    <div id="input-container"></div>
+                </fieldset>
+                <fieldset id="healthcare">
+                    <legend>Healthcare</legend>
+                    <div id="input-container"></div>
+                </fieldset>
+                <fieldset id="utilities">
+                    <legend>Utilities</legend>
+                    <div id="input-container"></div>
+                </fieldset>
+                <fieldset id="clothing">
+                    <legend>Clothing</legend>
+                    <div id="input-container"></div>
+                </fieldset>
+                <fieldset id="entertainment">
+                    <legend>Entertainment</legend>
+                    <div id="input-container"></div>
+                </fieldset>
+                <fieldset id="emergency-fund">
+                    <legend>Emergency Fund</legend>
+                    <div id="input-container"></div>
+                </fieldset>
+                <fieldset id="loans">
+                    <legend>Loans</legend>
+                    <div id="input-container"></div>
+                </fieldset>
+                <div id="controls">
+                    <span>
+                        <label for="entry-dropdown">Add category entry:</label>
+                        <select name="options" id="entry-dropdown">
+                            <option value="food" selected>Food</option>
+                            <option value="housing">Housing</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="utilities">Utilities</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="emergency-fund">Emergency Fund</option>
+                            <option value="loans">Loans</option>
+                        </select>
+                    </span>
+                </div>
+            </form>
+            <div id="output" class="output hide"></div>
+        </div>
+    </main>
+</body>
+</html>
