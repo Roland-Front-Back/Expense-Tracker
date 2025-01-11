@@ -1,0 +1,138 @@
+:root {
+    --lightblue: #3f88c5;
+    --gray: #adb5bd;
+    --yellow: #ffb703;
+    --lightpink: #e63946;
+    --darkgreen: #2b9348;
+    --darkorange: #bc3908;
+    --coal: #2b2d42;
+}
+
+body {
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: var(--lightblue);
+}
+
+h1 {
+    text-align: center;
+    font-weight: 800;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 5px;
+    margin-bottom: 0;
+    color: #fdc500;
+    text-shadow: 5px 5px 5px black;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    border: 2px groove var(--gray);
+    width: 400px;
+    height: auto;
+    padding: 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(20px); 
+    background-color: rgba(255, 255, 255, 0.781);
+    box-shadow: 15px 15px 60px rgba(0, 0, 0, 0.613);
+  
+}
+
+.container, .output {
+    margin: 20px auto;
+}
+
+fieldset {
+    margin-top: 10px;
+    border: 1px groove var(--gray);
+}
+
+label, legend {
+    font-weight: bold;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+input, select {
+    border-radius: 8px;
+}
+
+.controls {
+    margin-top: 15px;
+}
+
+button, input, select {
+    min-height: 25px;
+}
+
+button {
+    height: 30px;
+    border-radius: 10px;
+    background-color: var(--yellow);
+    border: 1px groove black;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e57e7e8d;
+}
+
+.btn {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.btn, .submit {
+    height: 35px;
+}
+
+fieldset, label, button, input, select {
+    margin-bottom: 10px;
+}
+
+.output {
+    border: 1px solid var(--gray);
+    padding: 10px;
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.output span {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.exceed {
+    color: var(--lightpink);
+    font-weight: bold;
+}
+
+.covered {
+    color: var(--darkgreen);
+    font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    .container {
+    border: 2px groove var(--gray);
+    width: 300px;
+    height: auto;
+    padding: 10px;
+    border-radius: 15px;
+    backdrop-filter: blur(20px); 
+    background-color: rgba(255, 255, 255, 0.781);
+    box-shadow: 15px 15px 60px rgba(0, 0, 0, 0.613);
+    }
+}
