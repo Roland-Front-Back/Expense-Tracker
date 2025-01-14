@@ -4,6 +4,7 @@ const entryDropdown = document.getElementById('entry-dropdown');
 const addEntryButton = document.getElementById('add-entry');
 const clearButton = document.getElementById('clear');
 const output = document.getElementById('output');
+let expenseChart = null;
 let isError = false;
 
 //This function takes a string as input and removes any characters that match the pattern defined in the regex
@@ -18,7 +19,7 @@ function isInvalidInput(str) {
     return str.match(regex); // returns the match if found. if not return null
 }
 
-// Adding another entry and set to 1 by using HTMLString and .insertAdjacentHTML to insert this in the existing container without replacing the current
+// Adding a new entry and set to 1 by using HTMLString and .insertAdjacentHTML to insert this in the existing container without replacing the current
 function addEntry() {
     const targetInputContainer = document.querySelector(`#${entryDropdown.value} .input-container`);
     const entryNumber = targetInputContainer.querySelectorAll(`input[type="text"]`).length + 1;
@@ -37,32 +38,27 @@ function calculateExpenses(e) {
     e.preventDefault(); //prevents from reloading if the function is triggered
     isError = false;
 
-    const foodNumberInputs = document.querySelectorAll("#food input[type='number']");
-    const housingNumberInputs = document.querySelectorAll("#housing input[type='number']");
-    const healthcareNumberInputs = document.querySelectorAll("#healthcare input[type='number']");
-    const utilitiesNumberInputs = document.querySelectorAll("#utilities input[type='number']");
-    const clothingNumberInputs = document.querySelectorAll("#clothing input[type='number']");
-    const entertainmentNumberInputs = document.querySelectorAll("#entertainment input[type='number']");
-    const emergencyFundNumberInputs = document.querySelectorAll("#emergency-fund input[type='number']");
-    const loansNumberInputs = document.querySelectorAll("#loans input[type='number']");
+    const categories = [
+        { name: "Food", inputs: document.querySelectorAll("#food input[type='number']") },
+        { name: "Housing", inputs: document.querySelectorAll("#housing input[type='number']") },
+        { name: "Healthcare", inputs: document.querySelectorAll("#healthcare input[type='number']") },
+        { name: "Utilities", inputs: document.querySelectorAll("#utilities input[type='number']") },
+        { name: "Clothing", inputs: document.querySelectorAll("#clothing input[type='number']") },
+        { name: "Entertainment", inputs: document.querySelectorAll("#entertainment input[type='number']") },
+        { name: "Emergency Fund", inputs: document.querySelectorAll("#emergency-fund input[type='number']") },
+        { name: "Loans", inputs: document.querySelectorAll("#loans input[type='number']") },
+    ];
 
     // calling the getExpensesFromInputs function for categories expenses and sum them up
-    const foodExpenses = getExpensesFromInputs(foodNumberInputs);
-    const housingExpenses = getExpensesFromInputs(housingNumberInputs);
-    const healthcareExpenses = getExpensesFromInputs(healthcareNumberInputs);
-    const utilitiesExpenses = getExpensesFromInputs(utilitiesNumberInputs);
-    const clothingExpenses = getExpensesFromInputs(clothingNumberInputs);
-    const entertainmentExpenses = getExpensesFromInputs(entertainmentNumberInputs);
-    const emergencyFundExpenses = getExpensesFromInputs(emergencyFundNumberInputs);
-    const loansExpenses = getExpensesFromInputs(loansNumberInputs);
     const budgetTotal = getExpensesFromInputs([budgetNumberInput]);
+    const expenses = categories.map(category => ({
+        name: category.name,
+        total: getExpensesFromInputs(category.inputs)
+    }));
 
-    if (isError) {
-        return;
-    }
+    if (isError) return;
 
-    const usedExpenses = foodExpenses + housingExpenses + healthcareExpenses + utilitiesExpenses +
-    + clothingExpenses + entertainmentExpenses + emergencyFundExpenses + loansExpenses; // sum of all categories expenses
+    const usedExpenses = expenses.reduce((sum, category) => sum + category.total, 0);
     const remainingBudget = budgetTotal - usedExpenses; // budget left after substracting spend expenses to budgetTotal.
     const status = remainingBudget < 0 ? 'Exceed' : 'Covered'; // if overspent = Exceed if not = Covered by the budget.
 
@@ -78,6 +74,47 @@ function calculateExpenses(e) {
     `;
 
     output.classList.remove('hide');
+
+    // Data fir pie chart
+    const labels = expenses.map(category => category.name);
+    const data = expenses.map(category => category.total).filter(value => !isNaN(value));
+
+    const canvas = document.getElementById('expenseChart');
+    // canvas.width = 200;  // Set width in pixels
+    // canvas.height = 200; // Set height in pixels
+
+    // Update the pie chart
+    if (expenseChart) {
+        expenseChart.data.labels = labels;
+        expenseChart.data.datasets[0].data = data;
+        expenseChart.update();
+    } else {
+        const ctx = document.getElementById('expenseChart').getContext('2d');
+        expenseChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Expense Distribution',
+                    data,
+                    backgroundColor: [
+                        '#FF6384', '#36A23B', '#FFCE56',
+                        '#48C0C0', '#9966FF', '#FF9F40',
+                        '#C9CBCF', '#2F4F4F',
+                    ],
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                },
+            },
+        });
+    }
 }
 
 // Calculating expenses while handling invalid inputs
@@ -112,8 +149,17 @@ function clearForm() {
     budgetNumberInput.value = '';
     output.innerText = '';
     output.classList.add('hide');
-}
 
+    const canvas = document.getElementById('expenseChart');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.style.display = 'none';
+
+    if (expenseChart) {
+        expenseChart.destroy();
+        expenseChart = null;
+    }
+}
 
 // Buttons listener to function
 addEntryButton.addEventListener("click", addEntry);

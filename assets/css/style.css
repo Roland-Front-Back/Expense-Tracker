@@ -33,6 +33,7 @@ main {
 }
 
 .container {
+    max-width: 100%;
     border: 2px groove var(--gray);
     width: 400px;
     height: auto;
@@ -107,6 +108,7 @@ fieldset, label, button, input, select {
 
 .hide {
     display: none;
+    height: 0;
 }
 
 .output span {
@@ -124,6 +126,24 @@ fieldset, label, button, input, select {
     font-weight: bold;
 }
 
+#expenseChartContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+    position: relative;
+}
+
+#expenseChart {
+    display: none;
+    width: 100%;
+    height: auto;
+    max-width: 350px;
+    margin: 0 auto;
+    position: relative;
+}
+
 @media (max-width: 480px) {
     .container {
     border: 2px groove var(--gray);
@@ -135,4 +155,22 @@ fieldset, label, button, input, select {
     background-color: rgba(255, 255, 255, 0.781);
     box-shadow: 15px 15px 60px rgba(0, 0, 0, 0.613);
     }
+
+    #expenseChartContainer {
+        margin-top: 10px;
+    }
+
+    #expenseChart {
+        width: 100%;
+        max-width: 280px;
+        height: 250px;
+    }
 }
+/* 
+@media (max-width: 480px) {
+    #expenseChart {
+        width: 100%;
+        height: 200px;
+        max-width: 250px;
+    }
+} */
